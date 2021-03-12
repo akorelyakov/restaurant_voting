@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 public class Restaurant extends AbstractNamedEntity {
-
     private List<Dish> menu;
 
     private User user;

@@ -1,7 +1,6 @@
 package com.korelyakov.restaurant_voting.model;
 
 public class AbstractNamedEntity extends AbstractBaseEntity {
-
     protected String name;
 
     protected AbstractNamedEntity() {

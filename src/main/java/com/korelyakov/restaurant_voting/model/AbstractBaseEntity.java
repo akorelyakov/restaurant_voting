@@ -1,7 +1,6 @@
 package com.korelyakov.restaurant_voting.model;
 
 public class AbstractBaseEntity {
-
     protected Integer id;
 
     protected AbstractBaseEntity() {
@@ -25,7 +24,7 @@ public class AbstractBaseEntity {
         return id;
     }
 
-    boolean isNew() {
+    public boolean isNew() {
         return getId() == null;
     }
 

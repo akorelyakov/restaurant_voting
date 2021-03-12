@@ -3,7 +3,6 @@ package com.korelyakov.restaurant_voting.model;
 import java.util.Date;
 
 public class Vote extends AbstractBaseEntity {
-
     private final Restaurant restaurant;
 
     private final User user;

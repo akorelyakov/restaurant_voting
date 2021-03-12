@@ -3,7 +3,6 @@ package com.korelyakov.restaurant_voting.model;
 import java.util.Date;
 
 public class Dish extends AbstractNamedEntity {
-
     private double price;
 
     private Restaurant restaurant;
