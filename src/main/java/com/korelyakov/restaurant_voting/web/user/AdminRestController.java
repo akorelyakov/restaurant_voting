@@ -2,9 +2,11 @@ package com.korelyakov.restaurant_voting.web.user;
 
 
 import com.korelyakov.restaurant_voting.model.User;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@Controller
 public class AdminRestController extends AbstractUserController {
 
     @Override

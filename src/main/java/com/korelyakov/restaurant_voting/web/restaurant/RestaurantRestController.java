@@ -5,11 +5,13 @@ import com.korelyakov.restaurant_voting.repository.RestaurantRepository;
 import com.korelyakov.restaurant_voting.web.SecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 import static com.korelyakov.restaurant_voting.util.ValidationUtil.*;
 
+@Controller
 public class RestaurantRestController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
