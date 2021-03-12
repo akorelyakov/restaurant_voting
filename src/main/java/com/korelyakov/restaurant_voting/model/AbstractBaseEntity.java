@@ -28,4 +28,9 @@ public class AbstractBaseEntity {
     boolean isNew() {
         return getId() == null;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":" + id;
+    }
 }
