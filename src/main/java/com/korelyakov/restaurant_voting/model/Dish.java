@@ -7,6 +7,8 @@ public class Dish extends AbstractNamedEntity {
 
     private Restaurant restaurant;
 
+    private User user;
+
     private Date added = new Date();
 
     public Dish(double price, Restaurant restaurant, Date added) {
@@ -44,5 +46,13 @@ public class Dish extends AbstractNamedEntity {
 
     public void setAdded(Date added) {
         this.added = added;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

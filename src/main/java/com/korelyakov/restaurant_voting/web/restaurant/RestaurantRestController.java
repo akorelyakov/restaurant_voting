@@ -50,4 +50,10 @@ public class RestaurantRestController {
         log.info("getAll for user {}", userId);
         return repository.getAll(userId);
     }
+
+    public List<Restaurant> getAllWithMenu() {
+        int userId = SecurityUtil.authUserId();
+        log.info("getAllWithMenu for user {}", userId);
+        return repository.getAllWithMenu();
+    }
 }

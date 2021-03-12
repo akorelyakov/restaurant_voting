@@ -1,5 +1,7 @@
 package com.korelyakov.restaurant_voting.model;
 
+import org.springframework.util.Assert;
+
 public class AbstractBaseEntity {
     protected Integer id;
 
@@ -20,7 +22,7 @@ public class AbstractBaseEntity {
 
     // doesn't work for hibernate lazy proxy
     public int id() {
-        //Assert.notNull(id, "Entity must have id");
+        Assert.notNull(id, "Entity must have id");
         return id;
     }
 

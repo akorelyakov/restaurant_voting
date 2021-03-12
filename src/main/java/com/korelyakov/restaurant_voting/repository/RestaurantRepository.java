@@ -17,6 +17,9 @@ public interface RestaurantRepository {
     // ORDERED name asc
     List<Restaurant> getAll(int userId);
 
+    // ORDERED name asc
+    List<Restaurant> getAllWithMenu();
+
     default Restaurant getWithVotes(int id, int userId) {
         throw new UnsupportedOperationException();
     }
