@@ -18,11 +18,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring.version>5.2.9.RELEASE</spring.version>
+        <spring.version>5.3.0</spring.version>
+        <spring.security.version>5.4.1</spring.security.version>
+        <spring-data-jpa.version>2.4.0</spring-data-jpa.version>
+        <jackson-json.version>2.11.3</jackson-json.version>
+        <tomcat.version>9.0.39</tomcat.version>
 
         <!-- Logging -->
         <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.30</slf4j.version>
+
+        <!--DB-->
+        <postgresql.version>42.2.17</postgresql.version>
+
+        <!-- Hibernate -->
+        <hibernate.version>5.4.22.Final</hibernate.version>
+        <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
+        <javax-el.version>3.0.1-b12</javax-el.version>
+
     </properties>
 
     <build>
@@ -62,6 +75,48 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
+        </dependency>
+
+        <!-- DataBase -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <!--- ORM -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -3,7 +3,7 @@ package com.korelyakov.restaurant_voting.model;
 import java.util.Date;
 
 public class Dish extends AbstractNamedEntity {
-    private double price;
+    private int price;
 
     private Restaurant restaurant;
 
@@ -11,24 +11,24 @@ public class Dish extends AbstractNamedEntity {
 
     private Date added = new Date();
 
-    public Dish(double price, Restaurant restaurant, Date added) {
+    public Dish(int price, Restaurant restaurant, Date added) {
         this.price = price;
         this.restaurant = restaurant;
         this.added = added;
     }
 
-    public Dish(Integer id, String name, double price, Restaurant restaurant, Date added) {
+    public Dish(Integer id, String name, int price, Restaurant restaurant, Date added) {
         super(id, name);
         this.price = price;
         this.restaurant = restaurant;
         this.added = added;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

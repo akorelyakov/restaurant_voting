@@ -1,6 +1,5 @@
 package com.korelyakov.restaurant_voting.model;
 
-import java.util.Date;
 import java.util.List;
 
 public class Restaurant extends AbstractNamedEntity {
@@ -8,25 +7,17 @@ public class Restaurant extends AbstractNamedEntity {
 
     private User user;
 
-    private boolean enabled = true;
-
-    private Date registered = new Date();
-
-    public Restaurant(String name, List<Dish> menu, User user, boolean enabled, Date registered) {
+    public Restaurant(String name, List<Dish> menu, User user) {
         this.name = name;
         this.menu = menu;
         this.user = user;
-        this.enabled = enabled;
-        this.registered = registered;
     }
 
-    public Restaurant(Integer id, String name, List<Dish> menu, User user, boolean enabled, Date registered) {
+    public Restaurant(Integer id, String name, List<Dish> menu, User user) {
         super(id, name);
         this.name = name;
         this.menu = menu;
         this.user = user;
-        this.enabled = enabled;
-        this.registered = registered;
     }
 
     public String getName() {
@@ -51,21 +42,5 @@ public class Restaurant extends AbstractNamedEntity {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public Date getRegistered() {
-        return registered;
-    }
-
-    public void setRegistered(Date registered) {
-        this.registered = registered;
     }
 }
