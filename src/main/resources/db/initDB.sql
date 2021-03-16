@@ -20,11 +20,9 @@ CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE restaurant
 (
-    id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name    VARCHAR,
-    user_id INTEGER NOT NULL,
-    CONSTRAINT name_idx UNIQUE (name),
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    id   INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name VARCHAR,
+    CONSTRAINT restaurant_name_idx UNIQUE (name)
 );
 
 CREATE TABLE user_role
@@ -37,12 +35,13 @@ CREATE TABLE user_role
 
 CREATE TABLE dish
 (
-    id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    restaurant_id INTEGER NOT NULL,
-    name          VARCHAR NOT NULL,
-    price         INTEGER NOT NULL,
-    CONSTRAINT restaurant_id_name_idx UNIQUE (restaurant_id, name),
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
+    id    INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    restaurant_id     INTEGER   NOT NULL,
+    name  VARCHAR                           NOT NULL,
+    price INTEGER                           NOT NULL,
+    added TIMESTAMP           DEFAULT now() NOT NULL,
+    CONSTRAINT dish_name_added_idx UNIQUE (name, added),
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE vote
@@ -50,7 +49,7 @@ CREATE TABLE vote
     id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     restaurant_id INTEGER                           NOT NULL,
     user_id       INTEGER                           NOT NULL,
-    datetime      TIMESTAMP           DEFAULT now() NOT NULL,
+    voted         TIMESTAMP           DEFAULT now() NOT NULL,
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE RESTRICT,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT
 );

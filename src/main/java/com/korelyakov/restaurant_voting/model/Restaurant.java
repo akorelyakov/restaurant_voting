@@ -1,23 +1,27 @@
 package com.korelyakov.restaurant_voting.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name", name="restaurant_name_idx"))
 public class Restaurant extends AbstractNamedEntity {
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Dish> menu;
 
-    private User user;
-
-    public Restaurant(String name, List<Dish> menu, User user) {
-        this.name = name;
-        this.menu = menu;
-        this.user = user;
+    public Restaurant() {
     }
 
-    public Restaurant(Integer id, String name, List<Dish> menu, User user) {
+    public Restaurant(String name, List<Dish> menu) {
+        this.name = name;
+        this.menu = menu;
+    }
+
+    public Restaurant(Integer id, String name, List<Dish> menu) {
         super(id, name);
         this.name = name;
         this.menu = menu;
-        this.user = user;
     }
 
     public String getName() {
@@ -34,13 +38,5 @@ public class Restaurant extends AbstractNamedEntity {
 
     public void setMenu(List<Dish> menu) {
         this.menu = menu;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

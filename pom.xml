@@ -35,7 +35,6 @@
         <hibernate.version>5.4.22.Final</hibernate.version>
         <hibernate-validator.version>6.1.6.Final</hibernate-validator.version>
         <javax-el.version>3.0.1-b12</javax-el.version>
-
     </properties>
 
     <build>
@@ -117,6 +116,14 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+
+        <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${javax-el.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
