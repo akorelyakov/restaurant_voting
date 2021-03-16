@@ -20,9 +20,11 @@ CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE restaurant
 (
-    id   INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    name VARCHAR,
-    CONSTRAINT restaurant_name_idx UNIQUE (name)
+    id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    user_id INTEGER NOT NULL,
+    name    VARCHAR,
+    CONSTRAINT restaurant_name_idx UNIQUE (name),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_role
@@ -35,11 +37,11 @@ CREATE TABLE user_role
 
 CREATE TABLE dish
 (
-    id    INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    restaurant_id     INTEGER   NOT NULL,
-    name  VARCHAR                           NOT NULL,
-    price INTEGER                           NOT NULL,
-    added TIMESTAMP           DEFAULT now() NOT NULL,
+    id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    restaurant_id INTEGER                           NOT NULL,
+    name          VARCHAR                           NOT NULL,
+    price         INTEGER                           NOT NULL,
+    added         TIMESTAMP           DEFAULT now() NOT NULL,
     CONSTRAINT dish_name_added_idx UNIQUE (name, added),
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE RESTRICT
 );

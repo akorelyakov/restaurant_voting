@@ -1,5 +1,8 @@
 package com.korelyakov.restaurant_voting.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,6 +12,11 @@ public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Dish> menu;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
     public Restaurant() {
     }
@@ -38,5 +46,13 @@ public class Restaurant extends AbstractNamedEntity {
 
     public void setMenu(List<Dish> menu) {
         this.menu = menu;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
