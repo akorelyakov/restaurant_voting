@@ -1,61 +1,30 @@
-package com.korelyakov.restaurant_voting.web.restaurant;
-
-import com.korelyakov.restaurant_voting.model.Restaurant;
-import com.korelyakov.restaurant_voting.repository.RestaurantRepository;
-import com.korelyakov.restaurant_voting.web.SecurityUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-
-import java.util.List;
-
-import static com.korelyakov.restaurant_voting.util.ValidationUtil.*;
-
-@Controller
-public class RestaurantRestController {
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
-    private final RestaurantRepository repository;
-
-    public RestaurantRestController(RestaurantRepository repository) {
-        this.repository = repository;
-    }
-
-    public Restaurant get(int id) {
-        int userId = SecurityUtil.authUserId();
-        log.info("get restaurant {} for user {}", id, userId);
-        return checkNotFoundWithId(repository.get(id, userId), id);
-    }
-
-    public Restaurant create(Restaurant restaurant) {
-        int userId = SecurityUtil.authUserId();
-        checkNew(restaurant);
-        log.info("create {} for user {}", restaurant, userId);
-        return repository.save(restaurant, userId);
-    }
-
-    public void update(Restaurant restaurant, int id) {
-        int userId = SecurityUtil.authUserId();
-        assureIdConsistent(restaurant, id);
-        log.info("update {} for user {}", restaurant, userId);
-        checkNotFoundWithId(repository.save(restaurant, userId), restaurant.getId());
-    }
-
-    public void delete(int id) {
-        int userId = SecurityUtil.authUserId();
-        log.info("delete restaurant {} for user {}", id, userId);
-        checkNotFoundWithId(repository.delete(id, userId), id);
-    }
-
-    public List<Restaurant> getAll() {
-        int userId = SecurityUtil.authUserId();
-        log.info("getAll for user {}", userId);
-        return repository.getAll(userId);
-    }
-
-    public List<Restaurant> getAllWithMenu() {
-        int userId = SecurityUtil.authUserId();
-        log.info("getAllWithMenu for user {}", userId);
-        return repository.getAllWithMenu();
-    }
-}
+//package com.korelyakov.restaurant_voting.web.restaurant;
+//
+//import com.korelyakov.restaurant_voting.model.Restaurant;
+//import com.korelyakov.restaurant_voting.model.Vote;
+//import com.korelyakov.restaurant_voting.repository.RestaurantRepository;
+//import com.korelyakov.restaurant_voting.repository.UserRepository;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//import org.springframework.stereotype.Controller;
+//
+//import java.util.List;
+//
+//@Controller
+//public class RestaurantRestController {
+//    private final Logger log = LoggerFactory.getLogger(getClass());
+//
+//    private RestaurantRepository repository;
+//
+//    private UserRepository userRepository;
+//
+//    public List<Restaurant> getAllWithMenu() {
+//        log.info("getAllWithMenu");
+//        return repository.getAllWithMenu();
+//    }
+//
+//    // сохраняем голос по id ресторана и пользователя
+//    public Vote vote(int userId, int restaurantId) {
+//        return new Vote(userRepository.get(userId), repository.get(userId, restaurantId));
+//    }
+//}

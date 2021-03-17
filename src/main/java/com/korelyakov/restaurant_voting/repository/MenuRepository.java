@@ -1,5 +1,6 @@
 package com.korelyakov.restaurant_voting.repository;
 
+import com.korelyakov.restaurant_voting.model.Menu;
 import com.korelyakov.restaurant_voting.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,20 +12,20 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
-public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
+public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @Transactional
     @Modifying
-    Restaurant save(Restaurant restaurant, int restaurant_id);
+    Menu save(Menu menu, int menu_id);
 
     @Transactional
     @Modifying
-    boolean delete(int restaurant_id);
+    boolean delete(int menu_id);
 
-    Restaurant get(int restaurant_id);
+    Menu get(int menu_id);
 
-    Restaurant getWithMenu(int restaurant_id);
+    List<Menu> getAllByDate(LocalDate date);
 
-    List<Restaurant> getAll();
+    List<Menu> getAllByRestaurantAndDate(int restaurant_id, LocalDate date);
 
-    List<Restaurant> getAllWithMenuByDate(LocalDate date);
+    List<Menu> getAllByRestaurant(int restaurant_id);
 }
