@@ -4,12 +4,11 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.awt.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "dish",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"name", "added"},
-                name = "restaurant_name_idx"))
+@Table(name = "dish")
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "price", nullable = false)
@@ -17,36 +16,21 @@ public class Dish extends AbstractNamedEntity {
     private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JoinColumn(name = "menu_id", nullable = false)
     @NotNull
-    private Restaurant restaurant;
-
-    @Column(name = "added", nullable = false, columnDefinition = "timestamp default now()")
-    @NotNull
-    private Date added = new Date();
+    private Menu menu;
 
     public Dish() {
     }
 
-    public Dish(int price, Restaurant restaurant) {
-        this(price, restaurant, new Date());
+    public Dish(String name, int price, Menu menu) {
+        this(null, name, price, menu);
     }
 
-    public Dish(Integer id, String name, int price, Restaurant restaurant) {
-        this(id, name, price, restaurant, new Date());
-    }
-
-    public Dish(int price, Restaurant restaurant, Date added) {
-        this.price = price;
-        this.restaurant = restaurant;
-        this.added = added;
-    }
-
-    public Dish(Integer id, String name, int price, Restaurant restaurant, Date added) {
+    public Dish(Integer id, String name, int price, Menu menu) {
         super(id, name);
         this.price = price;
-        this.restaurant = restaurant;
-        this.added = added;
+        this.menu = menu;
     }
 
     public int getPrice() {
@@ -57,20 +41,26 @@ public class Dish extends AbstractNamedEntity {
         this.price = price;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
-    public Date getAdded() {
-        return added;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Dish dish = (Dish) o;
+        return price == dish.price && menu.equals(dish.menu);
     }
 
-    public void setAdded(Date added) {
-        this.added = added;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), price, menu);
     }
 
     @Override
@@ -79,7 +69,7 @@ public class Dish extends AbstractNamedEntity {
                "id=" + id +
                ", name='" + name + '\'' +
                ", price=" + price +
-               ", restaurant=" + restaurant +
+               ", menu=" + menu +
                '}';
     }
 }

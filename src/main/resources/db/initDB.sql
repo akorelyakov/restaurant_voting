@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS user_role;
 DROP TABLE IF EXISTS dish;
 DROP TABLE IF EXISTS vote;
+DROP TABLE IF EXISTS menu;
 DROP TABLE IF EXISTS restaurant;
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS global_seq;
@@ -18,32 +19,38 @@ CREATE TABLE users
 );
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
-CREATE TABLE restaurant
-(
-    id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    user_id INTEGER NOT NULL,
-    name    VARCHAR,
-    CONSTRAINT restaurant_name_idx UNIQUE (name),
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
-);
-
 CREATE TABLE user_role
 (
     user_id INTEGER NOT NULL,
     role    VARCHAR,
-    CONSTRAINT user_roles_idx UNIQUE (user_id, role),
+    CONSTRAINT user_role_idx UNIQUE (user_id, role),
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE restaurant
+(
+    id   INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    name VARCHAR,
+    CONSTRAINT restaurant_name_idx UNIQUE (name)
+);
+
+CREATE TABLE menu
+(
+    id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    restaurant_id INTEGER                           NOT NULL,
+    added         TIMESTAMP           DEFAULT now() NOT NULL,
+    CONSTRAINT restaurant_id_added_idx UNIQUE (restaurant_id, added),
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
 
 CREATE TABLE dish
 (
-    id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    restaurant_id INTEGER                           NOT NULL,
-    name          VARCHAR                           NOT NULL,
-    price         INTEGER                           NOT NULL,
-    added         TIMESTAMP           DEFAULT now() NOT NULL,
-    CONSTRAINT dish_name_added_idx UNIQUE (name, added),
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE RESTRICT
+    id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    menu_id INTEGER NOT NULL,
+    name    VARCHAR NOT NULL,
+    price   INTEGER NOT NULL,
+    CONSTRAINT menu_id_name_idx UNIQUE (menu_id, name),
+    FOREIGN KEY (menu_id) REFERENCES menu (id) ON DELETE CASCADE
 );
 
 CREATE TABLE vote
@@ -52,7 +59,6 @@ CREATE TABLE vote
     restaurant_id INTEGER                           NOT NULL,
     user_id       INTEGER                           NOT NULL,
     voted         TIMESTAMP           DEFAULT now() NOT NULL,
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE RESTRICT,
-    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
--- CREATE UNIQUE INDEX dish_unique_restaurant_datetime_idx ON meals (id, name);

@@ -1,58 +1,59 @@
 package com.korelyakov.restaurant_voting.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "restaurant", uniqueConstraints = @UniqueConstraint(columnNames = "name", name="restaurant_name_idx"))
+@Table(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+    private List<Menu> menus;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Dish> menu;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vote")
+    private List<Vote> votes;
 
     public Restaurant() {
     }
 
-    public Restaurant(String name, List<Dish> menu) {
-        this.name = name;
-        this.menu = menu;
+    public Restaurant(String name, List<Menu> menus) {
+        this(null, name, menus);
     }
 
-    public Restaurant(Integer id, String name, List<Dish> menu) {
+    public Restaurant(Integer id, String name, List<Menu> menus) {
         super(id, name);
         this.name = name;
-        this.menu = menu;
+        this.menus = menus;
     }
 
-    public String getName() {
-        return name;
+    public List<Menu> getMenus() {
+        return menus;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 
-    public List<Dish> getMenu() {
-        return menu;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Restaurant that = (Restaurant) o;
+        return Objects.equals(menus, that.menus);
     }
 
-    public void setMenu(List<Dish> menu) {
-        this.menu = menu;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), menus);
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               ", menus=" + menus +
+               '}';
     }
 }
