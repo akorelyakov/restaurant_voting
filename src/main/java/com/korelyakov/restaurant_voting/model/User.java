@@ -38,7 +38,7 @@ public class User extends AbstractNamedEntity {
     @NotNull
     private Date registered = new Date();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vote")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Vote> votes;
 
     public User() {
