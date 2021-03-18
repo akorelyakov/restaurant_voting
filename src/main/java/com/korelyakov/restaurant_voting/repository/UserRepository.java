@@ -1,30 +1,38 @@
 package com.korelyakov.restaurant_voting.repository;
 
 import com.korelyakov.restaurant_voting.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<User, Integer> {
-    @Override
-    @Transactional
-    @Modifying
-    User save(User user);
+public class UserRepository {
+    private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM User u WHERE u.id=:id")
-    boolean delete(int id);
+    private final CrudUserRepository crudRepository;
 
-    User get(int id);
+    public UserRepository(CrudUserRepository crudRepository) {
+        this.crudRepository = crudRepository;
+    }
 
-    User getByEmail(String email);
+    public User save(User user) {
+        return crudRepository.save(user);
+    }
 
-    public List<User> getAll();
+    public boolean delete(int id) {
+        return crudRepository.delete(id) != 0;
+    }
+
+    public User get(int id) {
+        return crudRepository.findById(id).orElse(null);
+    }
+
+    public User getByEmail(String email) {
+        return crudRepository.getByEmail(email);
+    }
+
+    public List<User> getAll() {
+        return crudRepository.findAll(SORT_NAME_EMAIL);
+    }
 }
