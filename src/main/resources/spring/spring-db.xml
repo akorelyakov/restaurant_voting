@@ -27,9 +27,9 @@
         <property name="password" value="${database.password}"/>
     </bean>
 
-<!--    <tx:annotation-driven/>-->
+    <tx:annotation-driven/>
 
-<!--    <jpa:repositories base-package="com.korelyakov.**.repository"/>-->
+    <jpa:repositories base-package="com.korelyakov.**.repository"/>
 
 <!--    <bean id="dataSource"-->
 <!--          class="org.apache.tomcat.jdbc.pool.DataSource"-->
@@ -66,15 +66,15 @@
         </property>
     </bean>
 
-<!--    &lt;!&ndash; Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) &ndash;&gt;-->
-<!--    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"-->
-<!--          p:entityManagerFactory-ref="entityManagerFactory"/>-->
-<!--    &lt;!&ndash;-->
-<!--        For postgres driver logging-->
-<!--        It uses java.util.logging and logged via jul-to-slf4j bridge-->
-<!--        https://stackoverflow.com/a/27296470/548473-->
-<!--    &ndash;&gt;-->
-<!--    <bean class="org.springframework.beans.factory.config.MethodInvokingBean">-->
-<!--        <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>-->
-<!--    </bean>-->
+    <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+          p:entityManagerFactory-ref="entityManagerFactory"/>
+    <!--
+        For postgres driver logging
+        It uses java.util.logging and logged via jul-to-slf4j bridge
+        https://stackoverflow.com/a/27296470/548473
+    -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingBean">
+        <property name="staticMethod" value="org.slf4j.bridge.SLF4JBridgeHandler.install"/>
+    </bean>
 </beans>
