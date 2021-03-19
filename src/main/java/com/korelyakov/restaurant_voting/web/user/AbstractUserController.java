@@ -4,6 +4,7 @@ import com.korelyakov.restaurant_voting.model.User;
 import com.korelyakov.restaurant_voting.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -12,7 +13,8 @@ import static com.korelyakov.restaurant_voting.util.ValidationUtil.*;
 public abstract class AbstractUserController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    private UserRepository repository;
+    @Autowired
+    protected UserRepository repository;
 
     public User get(int id) {
         log.info("get {}", id);
