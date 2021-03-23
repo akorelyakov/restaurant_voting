@@ -1,7 +1,7 @@
-package com.korelyakov.restaurant_voting.web.user;
+package com.korelyakov.restaurant_voting.web.restaurant;
 
-import com.korelyakov.restaurant_voting.UserTestData;
-import com.korelyakov.restaurant_voting.model.User;
+import com.korelyakov.restaurant_voting.RestaurantTestData;
+import com.korelyakov.restaurant_voting.model.Restaurant;
 import com.korelyakov.restaurant_voting.util.exception.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static com.korelyakov.restaurant_voting.RestaurantTestData.*;
 import static com.korelyakov.restaurant_voting.UserTestData.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -24,16 +25,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class AdminRestControllerTest {
-    protected static final Logger log = LoggerFactory.getLogger(AdminRestControllerTest.class);
+public class RestaurantAdminRestControllerTest {
+    protected static final Logger log = LoggerFactory.getLogger(RestaurantAdminRestControllerTest.class);
 
     @Autowired
-    private AdminRestController controller;
+    private RestaurantAdminRestController controller;
 
     @Test
     public void get() {
-        User user = controller.get(ADMIN_ID);
-        USER_MATCHER.assertMatch(user, UserTestData.admin);
+        Restaurant restaurant = controller.get(RESTAURANT_1_ID);
+        RESTAURANT_MATCHER.assertMatch(restaurant, RestaurantTestData.restaurant1);
     }
 
     @Test
@@ -42,38 +43,32 @@ public class AdminRestControllerTest {
     }
 
     @Test
-    public void getByEmail() {
-        User user = controller.getByMail("admin@gmail.com");
-        USER_MATCHER.assertMatch(user, admin);
-    }
-
-    @Test
     public void update() {
-        User updated = getUpdated();
+        Restaurant updated = RestaurantTestData.getUpdated();
         controller.update(updated, updated.id());
-        USER_MATCHER.assertMatch(controller.get(USER_ID), getUpdated());
+        RESTAURANT_MATCHER.assertMatch(controller.get(RESTAURANT_1_ID), RestaurantTestData.getUpdated());
     }
 
     @Test
     public void getAll() {
-        List<User> all = controller.getAll();
-        USER_MATCHER.assertMatch(all, admin, user);
+        List<Restaurant> all = controller.getAll();
+        RESTAURANT_MATCHER.assertMatch(all, restaurant1, restaurant2, restaurant3);
     }
 
     @Test
     public void create() {
-        User created = controller.create(getNew());
+        Restaurant created = controller.create(RestaurantTestData.getNew());
         int newId = created.id();
-        User newUser = getNew();
-        newUser.setId(newId);
-        USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(controller.get(newId), newUser);
+        Restaurant newRestaurant = RestaurantTestData.getNew();
+        newRestaurant.setId(newId);
+        RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
+        RESTAURANT_MATCHER.assertMatch(controller.get(newId), newRestaurant);
     }
 
     @Test
     public void delete() {
-        controller.delete(USER_ID);
-        assertThrows(NotFoundException.class, () -> controller.get(USER_ID));
+        controller.delete(RESTAURANT_1_ID);
+        assertThrows(NotFoundException.class, () -> controller.get(RESTAURANT_1_ID));
     }
 
     @Test

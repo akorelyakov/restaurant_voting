@@ -29,6 +29,10 @@ public class Restaurant extends AbstractNamedEntity {
         this.menus = menus;
     }
 
+    public Restaurant(Restaurant r) {
+        this(r.getId(), r.getName(), r.getMenus());
+    }
+
     public List<Menu> getMenus() {
         return menus;
     }
@@ -56,7 +60,6 @@ public class Restaurant extends AbstractNamedEntity {
         return "Restaurant{" +
                "id=" + id +
                ", name='" + name + '\'' +
-               ", menus=" + menus +
                '}';
     }
 }

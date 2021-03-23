@@ -16,7 +16,6 @@ public class Dish extends AbstractNamedEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="menu_id")
-    @NotNull
     private Menu menu;
 
     public Dish() {
@@ -24,6 +23,10 @@ public class Dish extends AbstractNamedEntity {
 
     public Dish(String name, int price, Menu menu) {
         this(null, name, price, menu);
+    }
+
+    public Dish(String name, int price) {
+        this(null, name, price, null);
     }
 
     public Dish(Integer id, String name, int price, Menu menu) {

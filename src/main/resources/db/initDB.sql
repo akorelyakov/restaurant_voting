@@ -46,10 +46,9 @@ CREATE TABLE menu
 CREATE TABLE dish
 (
     id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    menu_id INTEGER NOT NULL,
+    menu_id INTEGER,
     name    VARCHAR NOT NULL,
     price   INTEGER NOT NULL,
-    CONSTRAINT menu_id_name_idx UNIQUE (menu_id, name),
     FOREIGN KEY (menu_id) REFERENCES menu (id) ON DELETE CASCADE
 );
 
