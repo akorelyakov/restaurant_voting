@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -15,24 +16,25 @@ public class Dish extends AbstractNamedEntity {
     private int price;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="menu_id")
-    private Menu menu;
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
+    @Column(name = "added", nullable = false, columnDefinition = "timestamp default now()")
+    @NotNull
+    private LocalDate added;
 
     public Dish() {
     }
 
-    public Dish(String name, int price, Menu menu) {
-        this(null, name, price, menu);
-    }
-
-    public Dish(String name, int price) {
-        this(null, name, price, null);
-    }
-
-    public Dish(Integer id, String name, int price, Menu menu) {
+    public Dish(Integer id, String name, int price, LocalDate added, Restaurant restaurant) {
         super(id, name);
         this.price = price;
-        this.menu = menu;
+        this.added = added;
+        this.restaurant = restaurant;
+    }
+
+    public Dish(String name, int price, Restaurant restaurant) {
+        this(null, name, price, LocalDate.now(), restaurant);
     }
 
     public int getPrice() {
@@ -43,12 +45,20 @@ public class Dish extends AbstractNamedEntity {
         this.price = price;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public LocalDate getAdded() {
+        return added;
+    }
+
+    public void setAdded(LocalDate added) {
+        this.added = added;
     }
 
     @Override
@@ -57,12 +67,12 @@ public class Dish extends AbstractNamedEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Dish dish = (Dish) o;
-        return price == dish.price && menu.equals(dish.menu);
+        return price == dish.price && restaurant.equals(dish.restaurant) && added.equals(dish.added);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), price, menu);
+        return Objects.hash(super.hashCode(), price, restaurant, added);
     }
 
     @Override
@@ -71,7 +81,8 @@ public class Dish extends AbstractNamedEntity {
                "id=" + id +
                ", name='" + name + '\'' +
                ", price=" + price +
-               ", menu=" + menu +
+               ", restaurant=" + restaurant +
+               ", added=" + added +
                '}';
     }
 }

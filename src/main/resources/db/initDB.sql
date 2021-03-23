@@ -34,22 +34,15 @@ CREATE TABLE restaurant
     CONSTRAINT restaurant_name_idx UNIQUE (name)
 );
 
-CREATE TABLE menu
-(
-    id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    restaurant_id INTEGER                           NOT NULL,
-    added         TIMESTAMP           DEFAULT now() NOT NULL,
-    CONSTRAINT restaurant_id_added_idx UNIQUE (restaurant_id, added),
-    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
-);
-
 CREATE TABLE dish
 (
     id      INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
-    menu_id INTEGER,
+    restaurant_id INTEGER                           NOT NULL,
+    added         TIMESTAMP           DEFAULT now() NOT NULL,
     name    VARCHAR NOT NULL,
     price   INTEGER NOT NULL,
-    FOREIGN KEY (menu_id) REFERENCES menu (id) ON DELETE CASCADE
+    CONSTRAINT restaurant_id_name_idx UNIQUE (restaurant_id, name),
+    FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
 
 CREATE TABLE vote
