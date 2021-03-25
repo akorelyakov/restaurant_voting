@@ -21,11 +21,6 @@ public class RestaurantAdminRestController extends AbstractRestaurantController 
     }
 
     @Override
-    public Restaurant getWithMenu(int id) {
-        return super.getWithMenu(id);
-    }
-
-    @Override
     public Restaurant create(Restaurant restaurant) {
         return super.create(restaurant);
     }
@@ -46,23 +41,17 @@ public class RestaurantAdminRestController extends AbstractRestaurantController 
     }
 
     @Override
-    public List<Restaurant> getAllWithMenu() {
-        return super.getAllWithMenu();
+    public Restaurant getWithDishes(int id) {
+        return super.getWithDishes(id);
     }
 
     @Override
-    public List<Restaurant> getAllWithMenuByDate(LocalDate date) {
-        return super.getAllWithMenuByDate(date);
+    public List<Restaurant> getWithDishesByDate(int id, LocalDate date) {
+        return super.getWithDishesByDate(id, date);
     }
 
-    //save restaurant
-
-    //get restaurant
-
-    //update restaurant
-
-    //save menu to restaurant by id
-
-    //update menu to restaurant by id
-
+    @Override
+    public List<Restaurant> getAllWithDishesByDate(LocalDate date) {
+        return super.getAllWithDishesByDate(date);
+    }
 }

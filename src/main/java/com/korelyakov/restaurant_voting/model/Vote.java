@@ -4,22 +4,24 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+import static java.time.LocalDate.now;
+
 @Entity
 @Table(name = "vote")
 public class Vote extends AbstractBaseEntity {
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     private Restaurant restaurant;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @NotNull
     private User user;
 
     @Column(name = "voted", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
-    private LocalDate voted;
+    private LocalDate voted = now();
 
     public Vote() {
     }

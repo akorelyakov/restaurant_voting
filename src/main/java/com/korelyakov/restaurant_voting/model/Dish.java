@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static java.time.LocalDate.now;
+
 @Entity
 @Table(name = "dish")
 public class Dish extends AbstractNamedEntity {
@@ -15,13 +17,13 @@ public class Dish extends AbstractNamedEntity {
     @Range(min = 1, max = 50_000)
     private int price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @Column(name = "added", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
-    private LocalDate added;
+    private LocalDate added = now();
 
     public Dish() {
     }
@@ -34,7 +36,7 @@ public class Dish extends AbstractNamedEntity {
     }
 
     public Dish(String name, int price, Restaurant restaurant) {
-        this(null, name, price, LocalDate.now(), restaurant);
+        this(null, name, price, now(), restaurant);
     }
 
     public int getPrice() {
@@ -59,20 +61,6 @@ public class Dish extends AbstractNamedEntity {
 
     public void setAdded(LocalDate added) {
         this.added = added;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Dish dish = (Dish) o;
-        return price == dish.price && restaurant.equals(dish.restaurant) && added.equals(dish.added);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), price, restaurant, added);
     }
 
     @Override

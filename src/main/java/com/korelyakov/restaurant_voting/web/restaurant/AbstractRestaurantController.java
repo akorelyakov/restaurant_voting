@@ -1,6 +1,5 @@
 package com.korelyakov.restaurant_voting.web.restaurant;
 
-import com.korelyakov.restaurant_voting.model.Menu;
 import com.korelyakov.restaurant_voting.model.Restaurant;
 import com.korelyakov.restaurant_voting.repository.RestaurantRepository;
 import org.slf4j.Logger;
@@ -21,11 +20,6 @@ public abstract class AbstractRestaurantController {
     public Restaurant get(int id) {
         log.info("get restaurant with id={}", id);
         return checkNotFoundWithId(repository.get(id), id);
-    }
-
-    public Restaurant getWithMenu(int id) {
-        log.info("getWithMenu with id={}", id);
-        return repository.getWithMenu(id);
     }
 
     public Restaurant create(Restaurant restaurant) {
@@ -50,13 +44,18 @@ public abstract class AbstractRestaurantController {
         return repository.getAll();
     }
 
-    public List<Restaurant> getAllWithMenu() {
-        log.info("getAllWithMenu");
-        return repository.getAllWithMenu();
+    public Restaurant getWithDishes(int id) {
+        log.info("getWithDishes with id={}", id);
+        return repository.getWithDishes(id);
     }
 
-    public List<Restaurant> getAllWithMenuByDate(LocalDate date) {
-        log.info("getAllWithMenuByDate={}", date);
-        return repository.getAllWithMenuByDate(date);
+    public List<Restaurant> getWithDishesByDate(int id, LocalDate date) {
+        log.info("getWithDishes with id={} and ByDate={}", id, date);
+        return repository.getWithDishesByDate(id, date);
+    }
+
+    public List<Restaurant> getAllWithDishesByDate(LocalDate date) {
+        log.info("getAllWithDishesByDate={}", date);
+        return repository.getAllWithDishesByDate(date);
     }
 }
