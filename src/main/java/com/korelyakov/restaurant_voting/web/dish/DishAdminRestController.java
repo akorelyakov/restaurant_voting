@@ -20,8 +20,11 @@ public class DishAdminRestController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    protected DishRepository dishRepository;
+    private final DishRepository dishRepository;
+
+    public DishAdminRestController(DishRepository dishRepository) {
+        this.dishRepository = dishRepository;
+    }
 
     public Dish get(int id) {
         log.info("get dish with id={}", id);
