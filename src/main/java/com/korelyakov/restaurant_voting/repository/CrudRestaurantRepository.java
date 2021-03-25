@@ -17,15 +17,12 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-    @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menus")
-    List<Restaurant> getAllWithMenus();
+    @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.dishes WHERE r.id =:id")
+    Restaurant getWithDishes(@Param("id") int id);
 
-    @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menus WHERE r.id =:id")
-    Restaurant getWithMenu(@Param("id") int id);
+    @Query("SELECT r FROM Restaurant r, Dish d LEFT JOIN FETCH r.dishes WHERE d.added=:date")
+    List<Restaurant> getAllWithDishesByDate(@Param("date") LocalDate date);
 
-    @Query("SELECT r FROM Restaurant r, Menu m LEFT JOIN FETCH r.menus WHERE m.added=:date")
-    List<Restaurant> getAllWithMenusByDate(@Param("date") LocalDate date);
-
-    @Query("SELECT r FROM Restaurant r, Menu m LEFT JOIN FETCH r.menus WHERE r.id=:id AND m.added=:date")
-    List<Restaurant> getAllWithMenusByDate(int id, LocalDate date);
+    @Query("SELECT r FROM Restaurant r, Dish d LEFT JOIN FETCH r.dishes WHERE r.id=:id AND d.added=:date")
+    List<Restaurant> getWithDishesByDate(@Param("id") int id, @Param("date") LocalDate date);
 }

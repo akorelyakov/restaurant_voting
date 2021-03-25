@@ -4,25 +4,26 @@ import com.korelyakov.restaurant_voting.model.Dish;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public class DishRepository {
     private final CrudDishRepository crudDishRepository;
 
-    private final CrudMenuRepository crudMenuRepository;
+    private final CrudRestaurantRepository crudRestaurantRepository;
 
-    public DishRepository(CrudDishRepository crudDishRepository, CrudMenuRepository crudMenuRepository) {
+    public DishRepository(CrudDishRepository crudDishRepository, CrudRestaurantRepository crudRestaurantRepository) {
         this.crudDishRepository = crudDishRepository;
-        this.crudMenuRepository = crudMenuRepository;
+        this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
     @Transactional
-    public Dish save(Dish dish, int menuId) {
+    public Dish save(Dish dish, int restaurantId) {
         if (!dish.isNew() && get(dish.getId()) == null) {
             return null;
         }
-        dish.setMenu(crudMenuRepository.getOne(menuId));
+        dish.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
         return crudDishRepository.save(dish);
     }
 
@@ -36,5 +37,13 @@ public class DishRepository {
 
     public List<Dish> getAll() {
         return crudDishRepository.findAll();
+    }
+
+    public List<Dish> getAllByRestaurant(int restaurantId) {
+        return crudDishRepository.getAllByRestaurant(restaurantId);
+    }
+
+    public List<Dish> getAllByRestaurantAndDate(int restaurantId, LocalDate date) {
+        return crudDishRepository.getAllByRestaurantAndDate(restaurantId,date );
     }
 }
