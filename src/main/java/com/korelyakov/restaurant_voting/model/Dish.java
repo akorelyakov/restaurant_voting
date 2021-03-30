@@ -1,8 +1,11 @@
 package com.korelyakov.restaurant_voting.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.korelyakov.restaurant_voting.util.DateTimeUtil;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,10 +25,12 @@ public class Dish extends AbstractNamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Restaurant restaurant;
 
     @Column(name = "added", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
     private LocalDate added = now();
 
     public Dish() {

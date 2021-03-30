@@ -1,12 +1,14 @@
 package com.korelyakov.restaurant_voting.web.restaurant;
 
 import com.korelyakov.restaurant_voting.model.Restaurant;
+import com.korelyakov.restaurant_voting.repository.DishRepository;
 import com.korelyakov.restaurant_voting.repository.RestaurantRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +20,9 @@ public abstract class AbstractRestaurantController {
 
     @Autowired
     protected RestaurantRepository repository;
+
+    @Autowired
+    protected DishRepository dishRepository;
 
     public Restaurant get(int id) {
         log.info("get restaurant with id={}", id);
@@ -49,13 +54,12 @@ public abstract class AbstractRestaurantController {
         return repository.getAll();
     }
 
-    public Restaurant getWithDishes(int id) {
-        log.info("getWithDishes with id={}", id);
-        return repository.getWithDishes(id);
-    }
-
-    public List<Restaurant> getWithDishesByDate(int id, LocalDate date) {
-        log.info("getWithDishes with id={} and ByDate={}", id, date);
+    public Restaurant getWithDishes(int id, @Nullable LocalDate date) {
+        if (date == null) {
+            log.info("getWithDishes with id={}", id);
+            return repository.getWithDishes(id);
+        }
+        log.info("getWithDishesByDate={} with id={}", date, id);
         return repository.getWithDishesByDate(id, date);
     }
 

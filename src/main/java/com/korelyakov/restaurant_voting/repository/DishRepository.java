@@ -43,7 +43,7 @@ public class DishRepository {
         return crudDishRepository.getAllByRestaurant(restaurantId);
     }
 
-    public List<Dish> getAllByRestaurantAndDate(int restaurantId, LocalDate date) {
-        return crudDishRepository.getAllByRestaurantAndDate(restaurantId,date );
+    public List<Dish> getByRestaurantAndDate(int restaurantId, LocalDate date) {
+        return crudDishRepository.getByRestaurantAndDate(restaurantId, date);
     }
 }
