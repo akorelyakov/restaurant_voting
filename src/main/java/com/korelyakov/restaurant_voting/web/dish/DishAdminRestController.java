@@ -4,11 +4,15 @@ import com.korelyakov.restaurant_voting.model.Dish;
 import com.korelyakov.restaurant_voting.repository.DishRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 import static com.korelyakov.restaurant_voting.util.ValidationUtil.*;
@@ -16,7 +20,9 @@ import static com.korelyakov.restaurant_voting.util.ValidationUtil.*;
 @RestController
 @RequestMapping(value = DishAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishAdminRestController {
-    static final String REST_URL = "/rest/admin/dish";
+    //TODO Надо сдалеать URL не привязанный к restaurantId либо надо делать проверку, что еда принадлежит ресторану.
+    // смысла в этом нет, так что лучше просто убрать привязку к ID и передавать его параметром.
+    static final String REST_URL = "/rest/admin/restaurants/{restaurantId}/dishes";
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -26,29 +32,43 @@ public class DishAdminRestController {
         this.dishRepository = dishRepository;
     }
 
-    public Dish get(int id) {
+    @Cacheable("dishes")
+    @GetMapping
+    public List<Dish> getAll(@PathVariable int restaurantId) {
+        log.info("getAll dishes for restaurantId={}", restaurantId);
+        return dishRepository.getAll(restaurantId);
+    }
+
+    @GetMapping("/{id}")
+    public Dish get(@PathVariable int id) {
         log.info("get dish with id={}", id);
         return checkNotFoundWithId(dishRepository.get(id), id);
     }
 
-    public List<Dish> getAll() {
-        log.info("getAll");
-        return dishRepository.getAll();
-    }
-
-    public void create(Dish dish, int restaurantId) {
-        log.info("save dish {} to restaurant with id={}", dish, restaurantId);
+    @CacheEvict(value = "dishes", allEntries = true)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish, @PathVariable int restaurantId) {
+        log.info("create {}", dish);
         checkNew(dish);
-        dishRepository.save(dish, restaurantId);
+        Dish created = dishRepository.save(dish, restaurantId);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/restaurants/" + restaurantId + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    public void update(Dish dish, int id, int restaurantId) {
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CacheEvict(value = "dishes", allEntries = true)
+    public void update(@RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
         log.info("update dish {} with id={} to restaurant with id={}", dish, id, restaurantId);
         assureIdConsistent(dish, id);
         checkNotFoundWithId(dishRepository.save(dish, restaurantId), dish.getId());
     }
 
-    public void delete(int id) {
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(value = "dishes", allEntries = true)
+    public void delete(@PathVariable int id) {
         log.info("delete dish with id={}", id);
         checkNotFoundWithId(dishRepository.delete(id), id);
     }

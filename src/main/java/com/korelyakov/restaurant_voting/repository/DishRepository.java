@@ -35,15 +35,7 @@ public class DishRepository {
         return crudDishRepository.findById(id).orElse(null);
     }
 
-    public List<Dish> getAll() {
-        return crudDishRepository.findAll();
-    }
-
-    public List<Dish> getAllByRestaurant(int restaurantId) {
-        return crudDishRepository.getAllByRestaurant(restaurantId);
-    }
-
-    public List<Dish> getByRestaurantAndDate(int restaurantId, LocalDate date) {
-        return crudDishRepository.getByRestaurantAndDate(restaurantId, date);
+    public List<Dish> getAll(int restaurantId) {
+        return crudDishRepository.getAllByRestaurantId(restaurantId);
     }
 }
