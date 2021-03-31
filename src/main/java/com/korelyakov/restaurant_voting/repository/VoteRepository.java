@@ -44,10 +44,10 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllByUser(int userId) {
-        return crudVoteRepository.getByUser(userId);
+        return crudVoteRepository.getByUserId(userId);
     }
 
     public List<Vote> getAllByRestaurant(int restaurantId) {
-        return crudVoteRepository.getByRestaurant(restaurantId);
+        return crudVoteRepository.getByRestaurantId(restaurantId);
     }
 }

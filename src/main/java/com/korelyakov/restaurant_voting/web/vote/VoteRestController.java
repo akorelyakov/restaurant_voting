@@ -33,7 +33,7 @@ public class VoteRestController {
         this.repository = repository;
     }
 
-    @GetMapping
+    @GetMapping("/votes")
     public List<Vote> getAllByUser() {
         log.info("getAll votes for userId={}", authUserId());
         return repository.getAllByUser(authUserId());
@@ -52,9 +52,8 @@ public class VoteRestController {
     }
 
     @PostMapping(value = "/{restaurantId}/votes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@RequestBody Vote vote, @PathVariable int restaurantId) {
-        log.info("create {} for restaurantId = {}", vote, restaurantId);
-        checkNew(vote);
+    public ResponseEntity<Vote> createWithLocation(@PathVariable int restaurantId) {
+        log.info("create new vote for restaurantId = {}", restaurantId);
         Vote created = repository.save(new Vote(), authUserId(), restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{restaurantId}/votes/{id}")
