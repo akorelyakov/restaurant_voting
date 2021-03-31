@@ -233,7 +233,7 @@
             <version>2.4.0-b180830.0438</version>
         </dependency>
 
-        <!--security-->
+        <!-- Security -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>

@@ -5,5 +5,6 @@
     <context:component-scan base-package="com.korelyakov.**.repository"/>
 
     <import resource="spring-cache.xml"/>
+    <import resource="spring-security.xml"/>
 
 </beans>
