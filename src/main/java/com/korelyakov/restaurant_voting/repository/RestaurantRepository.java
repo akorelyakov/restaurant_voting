@@ -1,6 +1,5 @@
 package com.korelyakov.restaurant_voting.repository;
 
-import com.korelyakov.restaurant_voting.model.Dish;
 import com.korelyakov.restaurant_voting.model.Restaurant;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;

@@ -4,6 +4,7 @@ import com.korelyakov.restaurant_voting.model.Vote;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -36,6 +37,10 @@ public class VoteRepository {
 
     public Vote get(int id) {
         return crudVoteRepository.findById(id).orElse(null);
+    }
+
+    public Vote getByUserAndDate(int userId, LocalDate date) {
+        return crudVoteRepository.getByUserAndDate(userId, date);
     }
 
     public List<Vote> getAllByUser(int userId) {

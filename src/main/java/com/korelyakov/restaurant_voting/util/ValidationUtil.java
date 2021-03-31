@@ -39,11 +39,4 @@ public class ValidationUtil {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
     }
-
-    // if user didn't vote today -> true
-    // if user already voted until 11-00 (exclude) -> true
-    // if already voted after 11-00 (include) -> false
-    public boolean canVote(User user) {
-        return true;
-    }
 }
