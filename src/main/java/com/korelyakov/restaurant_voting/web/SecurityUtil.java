@@ -1,15 +1,30 @@
 package com.korelyakov.restaurant_voting.web;
 
-import com.korelyakov.restaurant_voting.model.AbstractBaseEntity;
+import com.korelyakov.restaurant_voting.AuthorizedUser;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import static java.util.Objects.requireNonNull;
 
 public class SecurityUtil {
-    private static int id = AbstractBaseEntity.START_SEQ;
 
-    public static int authUserId() {
-        return id;
+    private SecurityUtil() {
     }
 
-    public static void setAuthUserId(int id) {
-        SecurityUtil.id = id;
+    public static AuthorizedUser safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        return (principal instanceof AuthorizedUser) ? (AuthorizedUser) principal : null;
+    }
+
+    public static AuthorizedUser get() {
+        return requireNonNull(safeGet(), "No authorized user found");
+    }
+
+    public static int authUserId() {
+        return get().getUser().id();
     }
 }

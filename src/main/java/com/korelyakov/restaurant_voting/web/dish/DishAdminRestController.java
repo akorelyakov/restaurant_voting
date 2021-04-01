@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -20,8 +21,6 @@ import static com.korelyakov.restaurant_voting.util.ValidationUtil.*;
 @RestController
 @RequestMapping(value = DishAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishAdminRestController {
-    //TODO Надо сдалеать URL не привязанный к restaurantId либо надо делать проверку, что еда принадлежит ресторану.
-    // смысла в этом нет, так что лучше просто убрать привязку к ID и передавать его параметром.
     static final String REST_URL = "/rest/admin/restaurants/{restaurantId}/dishes";
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -47,7 +46,7 @@ public class DishAdminRestController {
 
     @CacheEvict(value = "dishes", allEntries = true)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish, @PathVariable int restaurantId) {
+    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int restaurantId) {
         log.info("create {}", dish);
         checkNew(dish);
         Dish created = dishRepository.save(dish, restaurantId);
@@ -59,7 +58,7 @@ public class DishAdminRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(value = "dishes", allEntries = true)
-    public void update(@RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
+    public void update(@Valid @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
         log.info("update dish {} with id={} to restaurant with id={}", dish, id, restaurantId);
         assureIdConsistent(dish, id);
         checkNotFoundWithId(dishRepository.save(dish, restaurantId), dish.getId());

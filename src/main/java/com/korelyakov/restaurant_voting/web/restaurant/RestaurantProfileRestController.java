@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = RestaurantProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantProfileRestController extends AbstractRestaurantController {
-    static final String REST_URL = "/rest/restaurants";
+    static final String REST_URL = "/rest/restaurants/menus";
 
     @GetMapping
     public List<Restaurant> getAllWithDishesForToday() {
