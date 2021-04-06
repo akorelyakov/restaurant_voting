@@ -1,6 +1,6 @@
 package com.korelyakov.restaurant_voting.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.korelyakov.restaurant_voting.HasIdAndEmail;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class User extends AbstractNamedEntity {
+public class User extends AbstractNamedEntity implements HasIdAndEmail {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email

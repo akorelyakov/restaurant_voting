@@ -3,9 +3,12 @@ package com.korelyakov.restaurant_voting.web.vote;
 import com.korelyakov.restaurant_voting.model.Vote;
 import com.korelyakov.restaurant_voting.repository.VoteRepository;
 import com.korelyakov.restaurant_voting.util.DateTimeUtil;
+import com.korelyakov.restaurant_voting.util.exception.ApplicationException;
+import com.korelyakov.restaurant_voting.util.exception.ErrorType;
 import com.korelyakov.restaurant_voting.util.exception.VoteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +71,7 @@ public class VoteRestController {
         if (DateTimeUtil.canReVote(LocalTime.now())) {
             repository.save(vote, authUserId(), restaurantId);
         } else {
-            throw new VoteException("Too late for vote again!");
+            throw new ApplicationException("too late for vote again!", ErrorType.VALIDATION_ERROR);
         }
     }
 

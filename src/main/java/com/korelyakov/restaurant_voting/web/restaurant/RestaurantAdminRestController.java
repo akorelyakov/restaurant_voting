@@ -1,10 +1,12 @@
 package com.korelyakov.restaurant_voting.web.restaurant;
 
+import com.korelyakov.restaurant_voting.View;
 import com.korelyakov.restaurant_voting.model.Restaurant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -31,7 +33,7 @@ public class RestaurantAdminRestController extends AbstractRestaurantController 
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createWithLocation(@Validated(View.Web.class) @RequestBody Restaurant restaurant) {
         Restaurant created = super.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -41,7 +43,8 @@ public class RestaurantAdminRestController extends AbstractRestaurantController 
 
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@Validated(View.Web.class) @RequestBody Restaurant restaurant, @PathVariable int id) {
         super.update(restaurant, id);
     }
 

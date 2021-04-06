@@ -28,11 +28,15 @@ public class ExceptionInfoHandler {
     private static final Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
     public static final String EXCEPTION_DUPLICATE_EMAIL = "exception.user.duplicateEmail";
-    public static final String EXCEPTION_DUPLICATE_DATETIME = "exception.meal.duplicateDateTime";
+    public static final String EXCEPTION_DUPLICATE_RESTAURANT = "exception.restaurant.duplicate";
+    public static final String EXCEPTION_DUPLICATE_MENU = "exception.menu.duplicate";
+    public static final String EXCEPTION_DUPLICATE_VOTE = "exception.vote.duplicate";
 
     private static final Map<String, String> CONSTRAINS_I18N_MAP = Map.of(
             "users_unique_email_idx", EXCEPTION_DUPLICATE_EMAIL,
-            "meals_unique_user_datetime_idx", EXCEPTION_DUPLICATE_DATETIME);
+            "vote_unique_user_date_time_idx", EXCEPTION_DUPLICATE_VOTE,
+            "menu_unique_day_restaurant_name_idx", EXCEPTION_DUPLICATE_MENU,
+            "restaurant_unique_name_idx", EXCEPTION_DUPLICATE_RESTAURANT);
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorInfo> handleError(HttpServletRequest req, NotFoundException e) {

@@ -4,6 +4,8 @@
 
     <context:component-scan base-package="com.korelyakov.**.repository"/>
 
+    <context:component-scan base-package="com.korelyakov.**.service"/>
+
     <import resource="spring-cache.xml"/>
     <import resource="spring-security.xml"/>
 
