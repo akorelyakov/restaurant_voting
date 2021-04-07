@@ -63,7 +63,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteNotFound() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + "/" + RESTAURANT_1_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL + "/" + NOT_FOUND)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isUnprocessableEntity());
     }

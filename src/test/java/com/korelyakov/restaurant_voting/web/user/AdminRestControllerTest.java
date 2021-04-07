@@ -152,6 +152,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(errorType(VALIDATION_ERROR));
     }
 
+    // TODO fix test
     @Test
     @Transactional(propagation = Propagation.NEVER)
     void updateDuplicate() throws Exception {
@@ -167,6 +168,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(detailMessage(EXCEPTION_DUPLICATE_EMAIL));
     }
 
+    // TODO fix test
     @Test
     @Transactional(propagation = Propagation.NEVER)
     void createDuplicate() throws Exception {
