@@ -60,6 +60,7 @@ public class DishAdminRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(value = "dishes", allEntries = true)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Validated(View.Web.class) @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
         log.info("update dish {} with id={} to restaurant with id={}", dish, id, restaurantId);
         assureIdConsistent(dish, id);
