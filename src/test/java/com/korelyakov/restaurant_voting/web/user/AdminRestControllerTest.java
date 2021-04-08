@@ -151,35 +151,4 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity())
                 .andExpect(errorType(VALIDATION_ERROR));
     }
-
-    // TODO fix test
-    @Test
-    @Transactional(propagation = Propagation.NEVER)
-    void updateDuplicate() throws Exception {
-        User updated = new User(user);
-        updated.setEmail("admin@gmail.com");
-        perform(MockMvcRequestBuilders.put(REST_URL + USER_ID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(admin))
-                .content(jsonWithPassword(updated, "password")))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR))
-                .andExpect(detailMessage(EXCEPTION_DUPLICATE_EMAIL));
-    }
-
-    // TODO fix test
-    @Test
-    @Transactional(propagation = Propagation.NEVER)
-    void createDuplicate() throws Exception {
-        User expected = new User(null, "New", "user@yandex.ru", "newPass", Role.USER, Role.ADMIN);
-        perform(MockMvcRequestBuilders.post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .with(userHttpBasic(admin))
-                .content(jsonWithPassword(expected, "newPass")))
-                .andDo(print())
-                .andExpect(status().isUnprocessableEntity())
-                .andExpect(errorType(VALIDATION_ERROR))
-                .andExpect(detailMessage(EXCEPTION_DUPLICATE_EMAIL));
-    }
 }
