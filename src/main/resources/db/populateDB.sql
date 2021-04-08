@@ -37,5 +37,4 @@ VALUES ('Стейк', 1000, 100002, CURRENT_DATE),
        ('Вчерашняя мимоза', 150, 100002, CURRENT_DATE - 1 DAY);
 
 INSERT INTO vote (restaurant_id, user_id)
-VALUES (100002, 100000),
-       (100003, 100001);
+VALUES (100003, 100001);
