@@ -5,8 +5,6 @@ import com.korelyakov.restaurant_voting.model.User;
 import com.korelyakov.restaurant_voting.repository.UserRepository;
 import com.korelyakov.restaurant_voting.to.UserTo;
 import com.korelyakov.restaurant_voting.util.UserUtil;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;

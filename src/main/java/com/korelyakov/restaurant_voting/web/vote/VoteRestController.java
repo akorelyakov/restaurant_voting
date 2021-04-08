@@ -5,10 +5,8 @@ import com.korelyakov.restaurant_voting.repository.VoteRepository;
 import com.korelyakov.restaurant_voting.util.DateTimeUtil;
 import com.korelyakov.restaurant_voting.util.exception.ApplicationException;
 import com.korelyakov.restaurant_voting.util.exception.ErrorType;
-import com.korelyakov.restaurant_voting.util.exception.VoteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +18,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static com.korelyakov.restaurant_voting.util.ValidationUtil.*;
+import static com.korelyakov.restaurant_voting.util.ValidationUtil.checkNotFound;
+import static com.korelyakov.restaurant_voting.util.ValidationUtil.checkNotFoundWithId;
 import static com.korelyakov.restaurant_voting.web.SecurityUtil.authUserId;
 
 @RestController

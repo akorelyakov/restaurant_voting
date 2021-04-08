@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class DishAdminRestController {
     public void update(@Validated(View.Web.class) @RequestBody Dish dish, @PathVariable int id, @PathVariable int restaurantId) {
         log.info("update dish {} with id={} to restaurant with id={}", dish, id, restaurantId);
         assureIdConsistent(dish, id);
-        checkNotFoundWithId(dishRepository.save(dish, restaurantId), dish.getId());
+        checkNotFoundWithId(dishRepository.save(dish, restaurantId), dish.id());
     }
 
     @DeleteMapping("/{id}")
